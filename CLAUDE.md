@@ -18,6 +18,7 @@ They operate three connected sub-brands, each currently running as a separate In
 
 Current "website" is a rented profile page on `sunwealth-realtor.realtornigeria.com`. No real architecture, no search, no AI, no unified brand.
 
+
 ### The real problem
 
 1. **They can't scale past their team's DM capacity.** 97K followers, massive inbound volume, every DM is a human response. Most leads die in the inbox.
