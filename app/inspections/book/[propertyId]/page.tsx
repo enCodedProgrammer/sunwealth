@@ -28,18 +28,16 @@ export default async function BookInspectionPage({ params, searchParams }: PageP
   const { propertyId } = await params;
   const { leadId } = await searchParams;
 
-  const [property, agent] = await Promise.all([
-    getPropertyForBooking(propertyId),
-    getPropertyForBooking(propertyId).then((p) =>
-      p ? getAgentForSubBrand(p.subBrand) : null,
-    ),
-  ]);
-
+  const property = await getPropertyForBooking(propertyId);
   if (!property) notFound();
 
-  // Fall back to the default booking URL if no agent is found in DB yet.
-  const calBaseUrl =
-    agent?.calBookingUrl ?? process.env.NEXT_PUBLIC_CAL_DEFAULT_BOOKING_URL;
+  const agent = await getAgentForSubBrand(property.subBrand);
+
+  // Fall back to the default booking URL if no agent row exists in the DB yet.
+  // Validate it's a real URL before passing to buildBookingEmbedUrl (which calls new URL()).
+  const rawFallback = process.env.NEXT_PUBLIC_CAL_DEFAULT_BOOKING_URL;
+  const fallbackUrl = rawFallback && URL.canParse(rawFallback) ? rawFallback : null;
+  const calBaseUrl = agent?.calBookingUrl ?? fallbackUrl;
 
   if (!calBaseUrl) {
     // Booking is temporarily unavailable — show a contact fallback.
