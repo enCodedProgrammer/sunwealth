@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      // Placeholder imagery during development. Replace with the real CDN
+      // (Cloudinary / Supabase Storage) before launch.
+      { protocol: "https", hostname: "images.unsplash.com" },
+    ],
+  },
 };
 
 export default nextConfig;
